@@ -1,3 +1,6 @@
+'This function will be usefull when you're trying to execute SaveAs function
+'This perticular function will create a duplicate copy of Master working without Macro Codes
+
 Function SavingCopyOfMasterExcel()
   'Its considered best practice to Save the Master/Working Excel file before making copy of it
   'Because later User can make some changes and save the file manually if needed
