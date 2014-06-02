@@ -1,0 +1,57 @@
+  'Working on Sheets
+
+
+Function OpenOrFindAFileAsPerSheetName
+  Dim arrSheetName As Variant
+  arrSheetName = Array("Hair", "Skin", "Deo", "Homecare", "IC", "RTD", "Hot Tea", "Savoury", "Spreads")
+  
+  For i = LBound(arrSheetName) To UBound(arrSheetName)
+  
+    For Each str In fileArray           'Deciding which sheet to find
+        If InStr(1, str, arrSheetName(i), vbTextCompare) Then
+                Exit For
+        End If
+    Next                                'Next for the finding file names as per the sheets
+    
+    If str = "" Then
+        MsgBox "Required file for work not found To work on" & _
+                arrSheetName(i) & " Resuming work for next file.", vbInformation + vbOKOnly, _
+                "Desired file not found"
+        GoTo nextSheet
+    Else
+        Set wbSheet = ThisWorkbook.Sheets(arrSheetName(i))
+        wbSheet.Activate
+        strfileName = strFilePath & "\" & str
+        Set wbSource = Workbooks.Open(strfileName)
+        'Starts - Required file is open and needs to find the strings and values
+        wbSource.Sheets("Y2014 _").Activate
+        With wbSource.Sheets("Y2014 _")
+            Dim findString As String
+            Dim rng As Range
+            
+            For j = 4 To 9
+                findString = .Range("P" & i).Value
+                If VBA.Trim(findString) <> "" Then
+                    With ThisWorkbook.Sheets("All").Range("B:B")
+                        Set rng = .Find(what:=findString, _
+                                        after:=.Cells(.Cells.Count), _
+                                        LookIn:=xlValues, _
+                                        lookat:=xlWhole, _
+                                        searchdirection:=xlNext, _
+                                        MatchCase:=False)
+                        If Not rng Is Nothing Then
+                            Application.Goto rng, False
+                            ThisWorkbook.Sheets("RM PM WIP").Range("R" & i).Value = rng.Offset(0, 11).Value
+                            rng.Offset(0, -2).Value = 12103001
+                        End If
+                    End With
+                End If
+            Next
+        End With
+        'Ends - Required file is open and needs to find the strings and values
+        wbSource.Close False
+    End If  'End the sub if file is not found
+nextSheet:
+  Next        'Next for different sheets in the master file
+End Sub
+
