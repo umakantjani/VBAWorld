@@ -1,8 +1,37 @@
-  'Working on Sheets
+'This Function will be usefull if you've to open a file with respect to Sheet Name
+'Lets say in one report I needed to open lots of files with Master Excel Sheet Name 
 
 
 Function OpenOrFindAFileAsPerSheetName
+  Dim fileArray as Variant
+  'These are my file names which I need to open when I am working for a perticular Sheet in my Master Excel File
+  fileArray = Array("AQX_UAL Dairy.xlsx", _
+                            "AQX_UAL Deos.xlsx", _
+                            "AQX_UAL Exp by main Manufacturer MS Access Category.xlsx", _
+                            "AQX_UAL Exp by Manufacturer within UL Catergory.xlsx", _
+                            "AQX_UAL Fab Conditioner", _
+                            "AQX_UAL Face Care.xlsx", _
+                            "AQX_UAL Hair Care.xlsx", _
+                            "AQX_UAL Hand & Body.xlsx", _
+                            "AQX_UAL HHC.xlsx", _
+                            "AQX_UAL Hot Tea.xlsx", _
+                            "AQX_UAL Ice Cream.xlsx", _
+                            "AQX_UAL Ice Tea.xlsx", _
+                            "AQX_UAL Laundry.xlsx", _
+                            "AQX_UAL Meal Bases.xlsx", _
+                            "AQX_UAL Napisan.xlsx", _
+                            "AQX_UAL Other - Toil, Cosme, Skin range.xlsx", _
+                            "AQX_UAL Savoury Cleaned.xlsx", _
+                            "AQX_UAL Savoury Full.xlsx", _
+                            "AQX_UAL Side Dish.xlsx", _
+                            "AQX_UAL Skin Cleansing.xlsx", _
+                            "AQX_UAL Soup - Packet.xlsx", _
+                            "AQX_UAL Soup - Prepared.xlsx", _
+                            "AQX_UAL Spreads.xlsx", _
+                            "AQX_UAL Stocks.xlsx")
+                            
   Dim arrSheetName As Variant
+  'This Array contains Sheet Names which are in my Master Excel File (In Thisworkbook)
   arrSheetName = Array("Hair", "Skin", "Deo", "Homecare", "IC", "RTD", "Hot Tea", "Savoury", "Spreads")
   
   For i = LBound(arrSheetName) To UBound(arrSheetName)
@@ -24,32 +53,9 @@ Function OpenOrFindAFileAsPerSheetName
         strfileName = strFilePath & "\" & str
         Set wbSource = Workbooks.Open(strfileName)
         'Starts - Required file is open and needs to find the strings and values
-        wbSource.Sheets("Y2014 _").Activate
-        With wbSource.Sheets("Y2014 _")
-            Dim findString As String
-            Dim rng As Range
-            
-            For j = 4 To 9
-                findString = .Range("P" & i).Value
-                If VBA.Trim(findString) <> "" Then
-                    With ThisWorkbook.Sheets("All").Range("B:B")
-                        Set rng = .Find(what:=findString, _
-                                        after:=.Cells(.Cells.Count), _
-                                        LookIn:=xlValues, _
-                                        lookat:=xlWhole, _
-                                        searchdirection:=xlNext, _
-                                        MatchCase:=False)
-                        If Not rng Is Nothing Then
-                            Application.Goto rng, False
-                            ThisWorkbook.Sheets("RM PM WIP").Range("R" & i).Value = rng.Offset(0, 11).Value
-                            rng.Offset(0, -2).Value = 12103001
-                        End If
-                    End With
-                End If
-            Next
-        End With
+        '<-- Do your events with the opened file -->
         'Ends - Required file is open and needs to find the strings and values
-        wbSource.Close False
+        wbSource.Close False  'Close the file if you're done with your work
     End If  'End the sub if file is not found
 nextSheet:
   Next        'Next for different sheets in the master file
