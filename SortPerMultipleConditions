@@ -1,4 +1,4 @@
-'This Function will be helpfull for you if you've a case to short the the range with multiple Column Conditions
+'This Function will be helpfull for you if you've a case to sort the the range with multiple Column Conditions
 'and also you need to group certain rows in a group
 
 Function ShortMultipleConditions()
