@@ -1,0 +1,77 @@
+Sub FindRequiredFilesInAFolder
+    
+    'Starts - Dialog Box for Input folder
+    Dim fileDialog, folderDialog As fileDialog
+    Dim strFilePath, strfileName, strPath, strDialogTitle, FiletoList, strExt As String
+    Dim objFiles, objFile, FSO As Object
+    Dim intCount, intFileFount As Integer
+    Dim fileArray As Variant
+    Dim rngToCopy, rngRow, rngDestin As Range
+    Dim lngRangeCopied As Long
+    Dim sheetName As String
+    
+    MsgBox "Hi " & (Environ$("Username")) & "," & vbNewLine & vbNewLine & "Please select SOS Australia input folder to proceed.", vbOKOnly, "SOS Austalia Folder Selection"
+    DialogTitle = "Please select SOS Australia input folder!"
+    Set fileDialog = Application.fileDialog(msoFileDialogFolderPicker)
+    Set FSO = CreateObject("Scripting.FileSystemObject")
+    
+    With fileDialog     'Starts - SOS AUS FileDialog with
+        .InitialFileName = ThisWorkbook.Path & "\" 'Alternative to previous line for workbookpath
+        .AllowMultiSelect = False
+        .Filters.Clear
+        .Title = strDialogTitle
+        Application.StatusBar = "Locating input for SOS Australia"
+        
+        fileArray = Array("AQX_UAL Dairy.xlsx", _
+                            "AQX_UAL Deos.xlsx", _
+                            "AQX_UAL Exp by main Manufacturer MS Access Category.xlsx", _
+                            "AQX_UAL Exp by Manufacturer within UL Catergory.xlsx", _
+                            "AQX_UAL Fab Conditioner", _
+                            "AQX_UAL Face Care.xlsx", _
+                            "AQX_UAL Hair Care.xlsx", _
+                            "AQX_UAL Hand & Body.xlsx", _
+                            "AQX_UAL HHC.xlsx", _
+                            "AQX_UAL Hot Tea.xlsx", _
+                            "AQX_UAL Ice Cream.xlsx", _
+                            "AQX_UAL Ice Tea.xlsx", _
+                            "AQX_UAL Laundry.xlsx", _
+                            "AQX_UAL Meal Bases.xlsx", _
+                            "AQX_UAL Napisan.xlsx", _
+                            "AQX_UAL Other - Toil, Cosme, Skin range.xlsx", _
+                            "AQX_UAL Savoury Cleaned.xlsx", _
+                            "AQX_UAL Savoury Full.xlsx", _
+                            "AQX_UAL Side Dish.xlsx", _
+                            "AQX_UAL Skin Cleansing.xlsx", _
+                            "AQX_UAL Soup - Packet.xlsx", _
+                            "AQX_UAL Soup - Prepared.xlsx", _
+                            "AQX_UAL Spreads.xlsx", _
+                            "AQX_UAL Stocks.xlsx")
+        
+        If .Show = False Then   'Starts - SOS AUS Folder location condition
+            MsgBox "Operation Cancelled." & vbNewLine & vbNewLine & _
+                    "You did not select input folder for SOS Australia", vbCritical + vbOKOnly, "Operation Cancelled."
+            Application.StatusBar = "Operation Terminated"
+            Exit Sub
+        Else
+            strFilePath = .SelectedItems(1)
+            Set objFiles = FSO.GetFolder(strFilePath).Files
+            intCount = 0
+            intCount = objFiles.Count
+            intFileFount = 0
+            'Count files (that match the extension if provided)
+            For Each objFile In objFiles
+                strfileName = objFile.Name
+                For i = 0 To intCount - 1
+                    If UCase(VBA.Left(objFile.Name, 23)) = UCase(VBA.Left(fileArray(i), 23)) Then
+                        intFileFount = intFileFount + 1
+                        Exit For
+                    End If
+                Next
+            Next objFile
+            
+            If intFileFount <> 24 Then
+                MsgBox "Operation Cancelled." & vbNewLine & vbNewLine & _
+                        "All required files for the operation are not found. Check if you have all the files need for this operation."
+                Application.StatusBar = "Operation Terminated"
+                Exit Sub
+            End If
