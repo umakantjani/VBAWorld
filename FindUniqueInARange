@@ -1,0 +1,16 @@
+'This Function will be helpfull for you if you have a range and you just need unique values from that
+
+Function FindUnique()
+    Dim iUnique As Long
+    Dim dataArray, dataArray2 as Variant
+    iUnique = 0
+    dataArray2(0) = dataArray(0)
+    
+    For i = 0 To iCol - 1
+        If dataArray2(iUnique) <> dataArray(i) Then
+            iUnique = iUnique + 1
+            dataArray2(iUnique) = dataArray(i)
+            'ReDim Preserve dataArray2(iUnique + 1)
+        End If
+    Next
+End Function
