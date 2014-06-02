@@ -1,0 +1,25 @@
+'One of common scenario I was always fell in was where I had to work with Dynamic Column and then give the range as per the
+'Column Name. Following are the codes which solved all the problem of converting Column Numbers to Column Name
+
+Function ConvertColumnNumberToColumnName()
+      Dim iMonth As Integer
+      Dim CFormule As String
+      Dim Mcl As String
+      
+      iMonth = ThisWorkbook.Sheets("Master").Range("G3").Value + 24
+      
+      'Changing Column Number to Column Name
+      
+      If iMonth > 26 Then
+          Mcl = Chr(Int((iMonth - 1) / 26) + 64) & Chr(Int((iMonth - 1) Mod 26) + 65)
+      Else
+          Mcl = Chr(iMonth + 64)
+      End If
+      
+      lastRow = .Range("B1048576").End(xlUp).Row
+      
+      'Then you can use following way to assign the Converted to Column Name
+      CFormule = "=(" & Mcl & "2)"
+      .Range("M2").Formula = CFormule
+      .Range("M" & 2).AutoFill Destination:=Range("M2:M" & lastRow)
+End ConvertColumnNumberToColumnName
