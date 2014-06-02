@@ -6,6 +6,13 @@ Set rngDestin = .Cells(iRow + 7, iCol)
 rngToCopy.Copy
 rngDestin.PasteSpecial (xlPasteValues)
 
+
+
+
+
+
+
+
 'Find Following options for the pasting as per your requirement
 'xlPasteValues - Pastes only the Values no Formule or Formatting
 'xlPasteAll - Everything will be pasted.
