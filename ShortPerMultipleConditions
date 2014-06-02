@@ -1,0 +1,55 @@
+'This Function will be helpfull for you if you've a case to short the the range with multiple Column Conditions
+'and also you need to group certain rows in a group
+
+Function ShortMultipleConditions()
+  'Shorting the range
+    With wbNew.Sheets("Beauty")
+        Range("L" & firstRow).Select
+        Range(Selection, Selection.End(xlDown)).Select
+        .Sort.SortFields.Clear
+        .Sort.SortFields.Add Key:=Range("L" & firstRow & ":L" & lastRow), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:=xlSortNormal
+        .Sort.SortFields.Add Key:=Range("M" & firstRow & ":M" & lastRow), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:=xlSortNormal
+        .Sort.SortFields.Add Key:=Range("D" & firstRow & ":D" & lastRow), SortOn:=xlSortOnValues, Order:=xlDescending, DataOption:=xlSortNormal
+    End With
+    
+    With ActiveWorkbook.Worksheets("Beauty").Sort
+        .SetRange Range("A" & firstRow & ":M" & lastRow)
+        .Header = xlNo
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+    
+    'grouping to others
+    iRow = firstRow
+    Do Until wbNew.Worksheets("Beauty").Range("A" & iRow).Value = "OTHERS" Or iRow = lastRow
+        iRow = iRow + 1
+    Loop
+    
+    Dim gStartRow As Integer
+    gStartRow = iRow
+    If VBA.UCase(wbNew.Sheets("Beauty").Range("A" & iRow).Value) = VBA.UCase("OTHERS") Then
+        Dim gRange As Integer
+        iRow = iRow + 1
+        Do Until wbNew.Sheets("Beauty").Range("M" & iRow).Value <> 2
+            iRow = iRow + 1
+        Loop
+        Range(gStartRow + 1 & ":" & iRow - 1).EntireRow.Group
+    End If
+    
+    'Deleting Colums from H and others
+    wbNew.Sheets("Beauty").Range("L:Z").Delete
+        
+        'finding range
+        With wbNew.Sheets("Beauty")
+        rngShort = firstRow
+        iRow = firstRow
+        lastRow = 0
+        With wbNew.Sheets("Beauty")
+            Do Until VBA.UCase(.Range("A" & iRow).Value) = VBA.UCase(arrayLastrow(i))
+                iRow = iRow + 1
+            Loop
+            lastRow = iRow
+        End With
+End Functions
