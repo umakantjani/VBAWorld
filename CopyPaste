@@ -1,0 +1,9 @@
+'Use This always to CopyPaste Accurately for large Data
+Dim rngToCopy, rngDestin as Range
+
+Set rngToCopy = .Range(.Cells(41, "Q"), .Cells(42, "Q"))
+Set rngDestin = .Cells(iRow + 7, iCol)
+rngToCopy.Copy
+rngDestin.PasteSpecial (xlPasteValues)
+
+'xlPasteValues - Pastes only the Values no Formule or Formatting
