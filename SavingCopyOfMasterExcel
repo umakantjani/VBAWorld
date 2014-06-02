@@ -1,0 +1,32 @@
+Function SavingCopyOfMasterExcel()
+  'Its considered best practice to Save the Master/Working Excel file before making copy of it
+  'Because later User can make some changes and save the file manually if needed
+  
+  ThisWorkbook.Save
+        
+  'Saving a Duplicate of Master File starts
+  Set fileDialog = Application.fileDialog(msoFileDialogFolderPicker)      'Folder Object
+  MsgBox "Select the location to save output.", vbOKOnly + vbInformation, "Save output file"
+  
+  'Dialog pop for user to give the File saving location
+  If fileDialog.Show = False Then
+      MsgBox "Operation Successful but you did not select to save Output file."
+      Application.StatusBar = "Operation Successful. File is not saved!"
+      With Application        'Disabling Application Screen Updating and events for faster output
+          .ScreenUpdating = True
+          .EnableEvents = True
+          .AskToUpdateLinks = True
+      End With
+      Exit Sub
+  Else
+      Dim savingPath, strFilePath As String
+      strFilePath = fileDialog.SelectedItems(1)       'User selected folder location
+      savingPath = strFilePath & "\" & "<--Code Desired File Name-->"
+      Application.DisplayAlerts = False
+      ThisWorkbook.CheckCompatibility = False
+      ThisWorkbook.SaveAs fileName:=savingPath, FileFormat:=xlOpenXMLWorkbook, CreateBackup:=False
+      ThisWorkbook.Save
+      Application.DisplayAlerts = True
+  End If
+End Function
+
