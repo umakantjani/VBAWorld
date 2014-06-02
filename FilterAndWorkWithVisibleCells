@@ -1,0 +1,38 @@
+'There were many times where I have to Short for some condition and either delete those rows or change the value
+'If you need codes for that simillar condition, use following codes to deal with only shorted visible rows
+
+Function ShortAndWorkWithVisibleCells()
+      With (WorkingSheet)
+          If .AutoFilterMode Then .AutoFilterMode = False
+          If .AutoFilterMode = False Then .Range("A:DA").AutoFilter Field:=4, Criteria1:=Array("#N/A", "0"), Operator:=xlFilterValues
+          .Range("D1").Value = ""
+          .Range("D1").Select
+          nextRow = .Range("D1").End(xlDown).Row
+          .Range("D1").Value = "Customer Segment"
+          lastRow = .Range("A1048576").End(xlUp).Row
+          wbSource.Sheets("Data").Activate
+          .Range("D" & nextRow).Select
+          .Range("D" & nextRow & ":D" & lastRow).Rows.SpecialCells(xlCellTypeVisible) = ""        'Making a Visible Column Blank
+          If .AutoFilterMode Then .AutoFilterMode = False
+      End (WorkingSheet)
+End ShortAndWorkWithVisibleCells
+
+
+
+'Additional Codes for different situations
+'Deleting Visible Rows (After Shorting)
+'Shorting for the Colum "A" for 'Zimbabwe' to delete the 3 customers
+        If .AutoFilterMode Then .AutoFilterMode = False
+        If .AutoFilterMode = False Then .Range("A:DA").AutoFilter Field:=1, Criteria1:="Zimbabwe", Operator:=xlFilterValues
+        .Range("A:DA").AutoFilter Field:=3, Criteria1:=Array("11/11/6003/800700", "11/11/6003/15129005", "11/11/6003/15060112"), Operator:=xlFilterValues
+        .Range("A1").Value = ""
+        .Range("A1").Select
+        nextRow = .Range("A1").End(xlDown).Row
+        .Range("A1").Value = "Local Level"
+        lastRow = .Range("A1048576").End(xlUp).Row
+        .Range("C" & nextRow).Select
+        Range(Selection, Selection.End(xlDown)).SpecialCells(xlCellTypeVisible).Select
+        Selection.EntireRow.Delete
+        If .AutoFilterMode Then .AutoFilterMode = False
+
+
