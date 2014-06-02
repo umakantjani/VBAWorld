@@ -1,0 +1,26 @@
+'This Function Can be used for finding a Perticular String in a Range/Row/Column/String/Array
+
+Function SearchStringInArrayString()
+    Dim StrArray() As Variant
+    Dim FindThisString As String
+    Dim str As Variant
+    
+    StrArray = Array("ABCDEFG", "Deo JKL gg Total$")
+    FindThisString1 = "Deo"
+    FindThisString2 = "Total$"
+    
+    For Each str In StrArray
+        If InStr(1, str, FindThisString1, vbTextCompare) Then
+            If InStr(1, str, FindThisString2, vbTextCompare) Then
+                MsgBox "String Found!"
+            End If
+        End If
+    Next
+End Function
+
+
+
+
+
+'Addition Features
+'IF you want to Search in an string or Row/Range/Coulmn just customize the line 12
