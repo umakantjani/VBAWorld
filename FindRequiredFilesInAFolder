@@ -75,3 +75,5 @@ Sub FindRequiredFilesInAFolder
                 Application.StatusBar = "Operation Terminated"
                 Exit Sub
             End If
+    End With
+End Sub
