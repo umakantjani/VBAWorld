@@ -1,0 +1,2 @@
+Columns(25).Cut
+Columns(1).Insert Shift:=xlToRight
