@@ -1,0 +1,22 @@
+Sub TestRounding()
+Dim numbers() As Variant
+Dim num As Variant
+numbers = Array(1.8, 1.83, 1.85, 1.7, -1.7, -1.75, -1.8)
+
+For Each num In numbers
+    Select Case GetMod(CDbl(num))
+        Case Is >= 0.8
+            Debug.Print num & " --> " & Application.WorksheetFunction.RoundUp(num, 0)
+        Case Is <= 0.7
+            Debug.Print num & " --> " & Application.WorksheetFunction.RoundDown(num, 0)
+        Case Else
+            'there should not be anything here because we round num in the GetMod function
+    End Select
+Next
+
+
+End Sub
+Function GetMod(num As Double) As Double
+    num = Round(num, 1) 'to account for anything like 1.74, etc.
+    GetMod = Abs(num) - Int(Abs(num))
+End Function
