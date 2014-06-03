@@ -1,0 +1,22 @@
+Function mkArray()
+
+    Dim areaArr As Variant, i As Long
+    areaArr = ActiveSheet.Range("I1:J16").Value
+
+    For i = 1 To UBound(areaArr, 1)
+
+        ColorShape Cstr(areaArr(i, 1)), areaArr(i, 2)
+
+    Next i
+
+End Function
+
+
+Sub ColorShape(shpName as string, shpVal)
+    Const COLR_GREEN As Long = 11
+    Const COLR_RED As Long = 2
+
+    Sheets("Sheet1").Shapes(shpName).Fill.ForeColor.SchemeColor = _
+                IIf(shpVal > 500, COLR_GREEN, COLR_RED)
+
+End Sub
