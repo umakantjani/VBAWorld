@@ -1,0 +1,1 @@
+Range("A1:AP252").Replace What:="0", Replacement:="", LookAt:=xlWhole
